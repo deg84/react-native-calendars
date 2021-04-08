@@ -187,17 +187,31 @@ export default class BasicDay extends Component {
         accessibilityRole={this.isDisabled() ? undefined : 'button'}
         accessibilityLabel={this.props.accessibilityLabel}
       >
-        {this.isMultiPeriod() ? this.renderText() : this.renderContent()}
+        {this.renderContent()}
       </TouchableOpacity>
     );
   }
 
   renderPeriodsContainer() {
+    const {activeOpacity} = this.marking;
+
     return (
-      <View style={this.style.container}>
-        {this.renderContainer()}
+      <TouchableOpacity
+        testID={this.props.testID}
+        style={this.style.container}
+        disabled={this.shouldDisableTouchEvent()}
+        activeOpacity={activeOpacity}
+        onPress={!this.shouldDisableTouchEvent() ? this.onPress : undefined}
+        onLongPress={!this.shouldDisableTouchEvent() ? this.onLongPress : undefined}
+        accessible
+        accessibilityRole={this.isDisabled() ? undefined : 'button'}
+        accessibilityLabel={this.props.accessibilityLabel}
+      >
+        <View style={this.getContainerStyle()}>
+          {this.renderText()}
+        </View>
         {this.renderMarking()}
-      </View>
+      </TouchableOpacity>
     );
   }
 
